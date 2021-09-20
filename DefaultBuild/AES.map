@@ -1,0 +1,173 @@
+
+
+
+78K0R Linker W1.80                            Date:21 Sep 2021 Page:   1
+
+Command:   -yD:\Program Files (x86)\Renesas Electronics\CS+\CACX\Device\
+           RL78\Devicefile -_msgoff -oDefaultBuild\AES.lmf -gi0000000000
+           0000000000h -mi0 -s -pDefaultBuild\AES.map D:\Program Files (
+           x86)\Renesas Electronics\CS+\CACX\CA78K0R\V1.72\lib78k0r\s0rl
+           l.rel DefaultBuild\main.rel DefaultBuild\AES.rel DefaultBuild
+           \AESAlgorithm.rel -bcl78m -bcl78mf -iD:\Program Files (x86)\R
+           enesas Electronics\CS+\CACX\CA78K0R\V1.72\lib78k0r
+Para-file:
+Out-file:  DefaultBuild\AES.lmf
+Map-file:  DefaultBuild\AES.map
+Direc-file:
+Directive:
+
+
+*** Link information ***
+
+    25 output segment(s)
+  EBCH byte(s) real data
+   507 symbol(s) defined
+
+
+*** Memory map ***
+
+
+  SPACE=REGULAR
+
+  MEMORY=ROM
+  BASE ADDRESS=00000H   SIZE=10000H
+         OUTPUT   INPUT    INPUT      BASE      SIZE
+         SEGMENT  SEGMENT  MODULE     ADDRESS
+         @@VECT00                     00000H    00002H  CSEG AT
+                  @@VECT00 @cstart    00000H    00002H
+         @@CNSTL                      00002H    00000H  CSEG PAGE64KP
+                  @@CNSTL  @cstart    00002H    00000H
+         @@CNSTL                      00002H    00000H  CSEG PAGE64KP
+                  @@CNSTL  main       00002H    00000H
+         @@CNSTL                      00002H    00000H  CSEG PAGE64KP
+                  @@CNSTL  AES        00002H    00000H
+         @@CNSTL                      00002H    00000H  CSEG PAGE64KP
+                  @@CNSTL  AESAlgorithm
+                                      00002H    00000H
+         @@R_INIT                     00002H    00000H  CSEG UNIT64KP
+                  @@R_INIT @cstart    00002H    00000H
+                  @@R_INIT main       00002H    00000H
+                  @@R_INIT AES        00002H    00000H
+                  @@R_INIT AESAlgorithm
+                                      00002H    00000H
+                  @@R_INIT @rom       00002H    00000H
+         @@RLINIT                     00002H    00000H  CSEG UNIT64KP
+                  @@RLINIT @cstart    00002H    00000H
+                  @@RLINIT main       00002H    00000H
+                  @@RLINIT AES        00002H    00000H
+                  @@RLINIT AESAlgorithm
+                                      00002H    00000H
+                  @@RLINIT @rom       00002H    00000H
+         @@R_INIS                     00002H    00000H  CSEG UNIT64KP
+                  @@R_INIS @cstart    00002H    00000H
+                  @@R_INIS main       00002H    00000H
+                  @@R_INIS AES        00002H    00000H
+                  @@R_INIS AESAlgorithm
+                                      00002H    00000H
+                  @@R_INIS @rom       00002H    00000H
+         @@CALT                       00002H    00000H  CSEG
+                  @@CALT   @cstart    00002H    00000H
+                  @@CALT   main       00002H    00000H
+                  @@CALT   AES        00002H    00000H
+                  @@CALT   AESAlgorithm
+                                      00002H    00000H
+* gap *                               00002H    000BEH
+         ?CSEGOB0                     000C0H    00004H  CSEG OPT_BYTE
+         @@CODE                       000C4H    00000H  CSEG BASE
+                  @@CODE   main       000C4H    00000H
+                  @@CODE   AES        000C4H    00000H
+                  @@CODE   AESAlgorithm
+                                      000C4H    00000H
+         @@BASE                       000C4H    00000H  CSEG BASE
+                  @@BASE   main       000C4H    00000H
+                  @@BASE   AES        000C4H    00000H
+                  @@BASE   AESAlgorithm
+                                      000C4H    00000H
+         ?CSEGSI                      000C4H    0000AH  CSEG
+         @@LCODE                      000CEH    00123H  CSEG BASE
+                  @@LCODE  @cstart    000CEH    000ADH
+                  @@LCODE  @llsh      0017BH    0001BH
+                  @@LCODE  @lursh     00196H    0001FH
+                  @@LCODE  @lband     001B5H    00014H
+                  @@LCODE  @lbor      001C9H    00014H
+                  @@LCODE  @lbxor     001DDH    00014H
+         @@CODEL                      001F1H    00ABCH  CSEG
+                  @@CODEL  main       001F1H    00067H
+                  @@CODEL  AES        00258H    00057H
+                  @@CODEL  AESAlgorithm
+                                      002AFH    009FEH
+         @@LCODEL                     00CADH    00061H  CSEG
+                  @@LCODEL @hdwinit   00CADH    00001H
+                  @@LCODEL @stkinit   00CAEH    00044H
+                  @@LCODEL exit       00CF2H    0001CH
+* gap *                               00D0EH    012F2H
+         @@CNST                       02000H    0026CH  CSEG MIRRORP
+                  @@CNST   @cstart    02000H    00000H
+                  @@CNST   main       02000H    00000H
+                  @@CNST   AES        02000H    00020H
+                  @@CNST   AESAlgorithm
+                                      02020H    0024CH
+* gap *                               0226CH    0DD94H
+
+  MEMORY=RAM
+  BASE ADDRESS=FDF00H   SIZE=02100H
+         OUTPUT   INPUT    INPUT      BASE      SIZE
+         SEGMENT  SEGMENT  MODULE     ADDRESS
+         @@DATA                       FDF00H    0017AH  DSEG BASEP
+                  @@DATA   @cstart    FDF00H    000BAH
+                  @@DATA   main       FDFBAH    00000H
+                  @@DATA   AES        FDFBAH    00010H
+                  @@DATA   AESAlgorithm
+                                      FDFCAH    000B0H
+                  @@DATA   @rom       FE07AH    00000H
+         @@INIT                       FE07AH    00000H  DSEG BASEP
+                  @@INIT   @cstart    FE07AH    00000H
+                  @@INIT   main       FE07AH    00000H
+                  @@INIT   AES        FE07AH    00000H
+                  @@INIT   AESAlgorithm
+                                      FE07AH    00000H
+                  @@INIT   @rom       FE07AH    00000H
+         @@INIS                       FE07AH    00000H  DSEG UNITP
+                  @@INIS   @cstart    FE07AH    00000H
+                  @@INIS   main       FE07AH    00000H
+                  @@INIS   AES        FE07AH    00000H
+                  @@INIS   AESAlgorithm
+                                      FE07AH    00000H
+                  @@INIS   @rom       FE07AH    00000H
+         @@DATS                       FE07AH    00000H  DSEG UNITP
+                  @@DATS   @cstart    FE07AH    00000H
+                  @@DATS   main       FE07AH    00000H
+                  @@DATS   AES        FE07AH    00000H
+                  @@DATS   AESAlgorithm
+                                      FE07AH    00000H
+                  @@DATS   @rom       FE07AH    00000H
+         @@INITL                      FE07AH    00000H  DSEG UNIT64KP
+                  @@INITL  @cstart    FE07AH    00000H
+                  @@INITL  main       FE07AH    00000H
+                  @@INITL  AES        FE07AH    00000H
+                  @@INITL  AESAlgorithm
+                                      FE07AH    00000H
+                  @@INITL  @rom       FE07AH    00000H
+         @@DATAL                      FE07AH    00000H  DSEG UNIT64KP
+                  @@DATAL  @cstart    FE07AH    00000H
+                  @@DATAL  main       FE07AH    00000H
+                  @@DATAL  AES        FE07AH    00000H
+                  @@DATAL  AESAlgorithm
+                                      FE07AH    00000H
+                  @@DATAL  @rom       FE07AH    00000H
+         @@BITS                       FE07AH    00000H  BSEG
+                  @@BITS   @cstart    FE07AH.0  00000H.0
+                  @@BITS   main       FE07AH.0  00000H.0
+                  @@BITS   AES        FE07AH.0  00000H.0
+                  @@BITS   AESAlgorithm
+                                      FE07AH.0  00000H.0
+* gap *                               FE07AH    01E5EH
+         @@RTARG0                     FFED8H    00008H  DSEG AT
+                  @@RTARG0 @RTARG0    FFED8H    00008H
+* gap *                               FFEE0H    00020H
+* gap (Not Free Area) *               FFF00H    00100H
+
+
+ Target chip : R5F10BGG
+ Device file : V1.11
+
