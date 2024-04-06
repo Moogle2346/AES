@@ -50,44 +50,42 @@
 02FDF92_@TOKPTR
 010017B_@cend
 01000CE_@cstart
-01002AF_CreateExpansionKey
-010027F_Decrypt
-01004BF_DecryptByAES128
-0100263_Encrypt
-0100401_EncryptByAES128
-0100258_InitializeCryption
+01004DC_CreateExpansionKey
+01004AC_Decrypt
+01006F4_DecryptByAES128
+0100490_Encrypt
+0100636_EncryptByAES128
+0100485_InitializeCryption
 02FDF96_errno
-0100CEB_exit
-0100CA6_hdwinit
-01001F1_main
-0102020_rcon
-0100CA7_stkinit
+0100F26_exit
+0100EE1_hdwinit
+010041E_main
+0100EE2_stkinit
 ;FF     @cstart
 ;FF     main
 ;FF     AES
-<010029B_InitializeIV
+<01004C8_InitializeIV
 02FDFBA_iv
 0102010_iv_default
 0102000_key
 ;FF     AESAlgorithm
-<010056A_AddRoundKey
-0100C6E_CopyArrayData
-0100C23_GMul
-010061C_GetInvSBox
-01005DF_GetSBox
-010225C_InvMatrix
-0100980_InvMixColumns
-01006B4_InvShiftRows
-01005EB_InvSubBytes
-0100740_MixColumns
-01003CE_RotWord
-0100628_ShiftRows
-01005AE_SubBytes
-0100367_SubWord
-010214C_invSbox
-010224C_matrix
+<010079F_AddRoundKey
+0100EA9_CopyArrayData
+0100E5E_GMul
+0100854_GetInvSBox
+0100814_GetSBox
+0100BBB_InvMixColumns
+01008EF_InvShiftRows
+0100823_InvSubBytes
+010097B_MixColumns
+0100603_RotWord
+0100863_ShiftRows
+01007E3_SubBytes
+010059C_SubWord
+010031E_invSbox
+01001F2_rcon
 02FDFCA_roundKey
-010204C_sbox
+010021E_sbox
 ;FF     @llsh
 ;FF     @lursh
 ;FF     @lband

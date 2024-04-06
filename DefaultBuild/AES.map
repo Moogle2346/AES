@@ -20,8 +20,8 @@ Directive:
 *** Link information ***
 
     25 output segment(s)
-  EB5H byte(s) real data
-   507 symbol(s) defined
+  EA3H byte(s) real data
+   503 symbol(s) defined
 
 
 *** Memory map ***
@@ -41,9 +41,6 @@ Directive:
                   @@CNSTL  main       00002H    00000H
          @@CNSTL                      00002H    00000H  CSEG PAGE64KP
                   @@CNSTL  AES        00002H    00000H
-         @@CNSTL                      00002H    00000H  CSEG PAGE64KP
-                  @@CNSTL  AESAlgorithm
-                                      00002H    00000H
          @@R_INIT                     00002H    00000H  CSEG UNIT64KP
                   @@R_INIT @cstart    00002H    00000H
                   @@R_INIT main       00002H    00000H
@@ -91,23 +88,27 @@ Directive:
                   @@LCODE  @lband     001B5H    00014H
                   @@LCODE  @lbor      001C9H    00014H
                   @@LCODE  @lbxor     001DDH    00014H
-         @@CODEL                      001F1H    00AB5H  CSEG
-                  @@CODEL  main       001F1H    00067H
-                  @@CODEL  AES        00258H    00057H
+* gap *                               001F1H    00001H
+         @@CNSTL                      001F2H    0022CH  CSEG PAGE64KP
+                  @@CNSTL  AESAlgorithm
+                                      001F2H    0022CH
+         @@CODEL                      0041EH    00AC3H  CSEG
+                  @@CODEL  main       0041EH    00067H
+                  @@CODEL  AES        00485H    00057H
                   @@CODEL  AESAlgorithm
-                                      002AFH    009F7H
-         @@LCODEL                     00CA6H    00061H  CSEG
-                  @@LCODEL @hdwinit   00CA6H    00001H
-                  @@LCODEL @stkinit   00CA7H    00044H
-                  @@LCODEL exit       00CEBH    0001CH
-* gap *                               00D07H    012F9H
-         @@CNST                       02000H    0026CH  CSEG MIRRORP
+                                      004DCH    00A05H
+         @@LCODEL                     00EE1H    00061H  CSEG
+                  @@LCODEL @hdwinit   00EE1H    00001H
+                  @@LCODEL @stkinit   00EE2H    00044H
+                  @@LCODEL exit       00F26H    0001CH
+* gap *                               00F42H    010BEH
+         @@CNST                       02000H    00020H  CSEG MIRRORP
                   @@CNST   @cstart    02000H    00000H
                   @@CNST   main       02000H    00000H
                   @@CNST   AES        02000H    00020H
                   @@CNST   AESAlgorithm
-                                      02020H    0024CH
-* gap *                               0226CH    0DD94H
+                                      02020H    00000H
+* gap *                               02020H    0DFE0H
 
   MEMORY=RAM
   BASE ADDRESS=FDF00H   SIZE=02100H
