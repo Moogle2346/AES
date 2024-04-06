@@ -36,9 +36,9 @@
  */
 void main(void)
 {
-	U8 plainText[16];
-	U8 cipherText[16];
-	U8 data[16];
+	U8 plainText[32];
+	U8 cipherText[32];
+	U8 data[32];
 
 	plainText[0] = 0x00;
 	plainText[1] = 0x11;
@@ -56,13 +56,29 @@ void main(void)
 	plainText[13] = 0xDD;
 	plainText[14] = 0xEE;
 	plainText[15] = 0xFF;
+	plainText[16] = 0x00;
+	plainText[17] = 0x11;
+	plainText[18] = 0x22;
+	plainText[19] = 0x33;
+	plainText[20] = 0x44;
+	plainText[21] = 0x55;
+	plainText[22] = 0x66;
+	plainText[23] = 0x77;
+	plainText[24] = 0x88;
+	plainText[25] = 0x99;
+	plainText[26] = 0xAA;
+	plainText[27] = 0xBB;
+	plainText[28] = 0xCC;
+	plainText[29] = 0xDD;
+	plainText[30] = 0xEE;
+	plainText[31] = 0xFF;
 
 	while (1)
 	{
 		InitializeCryption();
-		Encrypt(plainText, cipherText, 1);
+		Encrypt(plainText, cipherText, 2);
 
 		InitializeCryption();
-		Decrypt(cipherText, data, 1);
+		Decrypt(cipherText, data, 2);
 	}
 }

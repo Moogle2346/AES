@@ -15,6 +15,8 @@
 #define MAX_ROUND			(U8)(10)
 #define ROUND_KEY_SIZE		(U8)(WORD * (MAX_ROUND + 1))
 
+#define CBC_MODE			// CBCÉÇÅ[Éh
+
 //-----------------------------------------------------------
 //  å^íËã`
 //-----------------------------------------------------------
@@ -167,10 +169,14 @@ void EncryptByAES128(const U8 *plainText, U8 *cipherText, U32 block, U8 *iv)
 		plainTextPtr = &plainText[i * BLOCK_SIZE];
 		cipherTextPtr = &cipherText[i * BLOCK_SIZE];
 
+		CopyArrayData(cipherTextPtr, plainTextPtr, BLOCK_SIZE);
+
+#ifdef CBC_MODE
 		for (j = 0; j < BLOCK_SIZE; j++)
 		{
-			cipherTextPtr[j] = plainTextPtr[j];
+			cipherTextPtr[j] ^= iv[j];
 		}
+#endif
 
 		// à√çÜèàóù
 		AddRoundKey(cipherTextPtr, &roundKey[0]);
@@ -193,7 +199,7 @@ void EncryptByAES128(const U8 *plainText, U8 *cipherText, U32 block, U8 *iv)
 
 void DecryptByAES128(const U8 *cipherText, U8 *plainText, U32 block, U8 *iv)
 {
-	U8 i, j, k;
+	U8 i, j;
 	U8 *cipherTextPtr;
 	U8 *plainTextPtr;
 
@@ -207,17 +213,24 @@ void DecryptByAES128(const U8 *cipherText, U8 *plainText, U32 block, U8 *iv)
 		// ïúçÜèàóù
 		AddRoundKey(plainTextPtr, &roundKey[WORD * MAX_ROUND]);
 
-		for (k = MAX_ROUND - 1; 0 < k; k--)
+		for (j = MAX_ROUND - 1; 0 < j; j--)
 		{
 			InvShiftRows(plainTextPtr);
 			InvSubBytes(plainTextPtr);
-			AddRoundKey(plainTextPtr, &roundKey[WORD * k]);
+			AddRoundKey(plainTextPtr, &roundKey[WORD * j]);
 			InvMixColumns(plainTextPtr);
 		}
 
 		InvShiftRows(plainTextPtr);
 		InvSubBytes(plainTextPtr);
 		AddRoundKey(plainTextPtr, roundKey);
+
+#ifdef CBC_MODE
+		for (j = 0; j < BLOCK_SIZE; j++)
+		{
+			plainTextPtr[j] ^= iv[j];
+		}
+#endif
 
 		CopyArrayData(iv, cipherTextPtr, BLOCK_SIZE);
 	}
@@ -299,7 +312,6 @@ static U8 GetInvSBox(U8 num)
 static void ShiftRows(U8 *data)
 {
 	U8 tmp[16];
-	U8 i;
 
 	CopyArrayData(tmp, data, BLOCK_SIZE);
 
@@ -316,7 +328,6 @@ static void ShiftRows(U8 *data)
 static void InvShiftRows(U8 *data)
 {
 	U8 tmp[16];
-	U8 i;
 
 	CopyArrayData(tmp, data, BLOCK_SIZE);
 
