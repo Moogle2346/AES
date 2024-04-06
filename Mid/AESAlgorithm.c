@@ -112,6 +112,10 @@ static U32 roundKey[ROUND_KEY_SIZE];
 //  関数定義
 //-----------------------------------------------------------
 
+/**
+ * @brief ラウンドキーを作成します。
+ * @param[in] key 作成元の鍵
+ */
 void CreateExpansionKey(U8 *key)
 {
 	U8 i;
@@ -137,6 +141,11 @@ void CreateExpansionKey(U8 *key)
 	}
 }
 
+/**
+ * @brief Word(4Byte)単位でS-Boxに基づきデータを置換します。
+ * @param[in] data 元データ
+ * @return 置換データ
+ */
 static U32 SubWord(U32 data)
 {
 	U8 i;
@@ -152,12 +161,24 @@ static U32 SubWord(U32 data)
 	return *(U32*)tmp;
 }
 
+/**
+ * @brief 1wordをbyte単位で左に回転します。
+ * @param[in] data 元データ 
+ * @return 変換後データ
+ */
 static U32 RotWord(U32 data)
 {
 	/* a3 a2 a1 a0 -> a0 a3 a2 a1 */
 	return data << 24 | data >> 8;
 }
 
+/**
+ * @brief AES128に基づき暗号化します。
+ * @param[in] plainText 平文
+ * @param[out] cipherText 暗号文
+ * @param[in] block ブロック数(1ブロック=16Byte)
+ * @param[in] iv 初期化ベクトル
+ */
 void EncryptByAES128(const U8 *plainText, U8 *cipherText, U32 block, U8 *iv)
 {
 	U8 i, j;
@@ -197,6 +218,13 @@ void EncryptByAES128(const U8 *plainText, U8 *cipherText, U32 block, U8 *iv)
 	}
 }
 
+/**
+ * @brief AES128に基づき復号します。
+ * @param[in] cipherText 暗号文
+ * @param[out] plainText 平文
+ * @param[in] block ブロック数(1ブロック=16Byte)
+ * @param[in] iv 初期化ベクトル
+ */
 void DecryptByAES128(const U8 *cipherText, U8 *plainText, U32 block, U8 *iv)
 {
 	U8 i, j;
@@ -239,7 +267,7 @@ void DecryptByAES128(const U8 *cipherText, U8 *plainText, U32 block, U8 *iv)
 /****************************** AddRoundKey ******************************/
 
 /**
- * @brief 引数にラウンドキーの排他的論理和を行います。
+ * @brief データにラウンドキーの排他的論理和を行います。
  * @param[out] data データ
  * @param[in] key ラウンドキー
  */
@@ -257,7 +285,7 @@ static void AddRoundKey(U8 *data, U32 *key)
 
 /**
  * @brief S-Boxに基づきデータを置換します。
- * @param[in] data 置換データ
+ * @param[out] data 置換データ
  */
 static void SubBytes(U8 *data)
 {
@@ -271,7 +299,7 @@ static void SubBytes(U8 *data)
 
 /**
  * @brief S-Boxのデータを返します。
- * @param num 値
+ * @param[in] num 値
  * @return 置換データ
  */
 static U8 GetSBox(U8 num)
@@ -281,7 +309,7 @@ static U8 GetSBox(U8 num)
 
 /**
  * @brief InvS-Boxに基づきデータを置換します。
- * @param data 置換データ
+ * @param[out] data 置換データ
  */
 static void InvSubBytes(U8 *data)
 {
@@ -295,7 +323,7 @@ static void InvSubBytes(U8 *data)
 
 /**
  * InvS-Boxのデータを返します。
- * @param num 値
+ * @param[in] num 値
  * @return 置換データ
  */
 static U8 GetInvSBox(U8 num)
@@ -307,7 +335,7 @@ static U8 GetInvSBox(U8 num)
 
 /**
  * @brief データの各要素を左にシフトします。
- * @param data データ配列
+ * @param[out] data シフト後データ
  */
 static void ShiftRows(U8 *data)
 {
@@ -323,7 +351,7 @@ static void ShiftRows(U8 *data)
 
 /**
  * @brief データの各要素を右にシフトします。
- * @param data データ配列
+ * @param[out] data シフト後データ
  */
 static void InvShiftRows(U8 *data)
 {
@@ -339,6 +367,10 @@ static void InvShiftRows(U8 *data)
 
 /****************************** MixColumn ******************************/
 
+/**
+ * @brief ビット演算による4バイト単位の行列変換を行います。
+ * @param[out] data 行列変換後データ
+ */
 static void MixColumns(U8 *data)
 {
 	U8 table[4][4];
@@ -363,6 +395,10 @@ static void MixColumns(U8 *data)
 	data[3] = tmp[3][0];	data[7] = tmp[3][1];	data[11] = tmp[3][2];	data[15] = tmp[3][3];
 }
 
+/**
+ * @brief ビット演算による4バイト単位の行列変換を行います。
+ * @param[out] data 行列変換後データ
+ */
 static void InvMixColumns(U8 *data)
 {
 	U8 table[4][4];
@@ -387,6 +423,12 @@ static void InvMixColumns(U8 *data)
 	data[3] = tmp[3][0];	data[7] = tmp[3][1];	data[11] = tmp[3][2];	data[15] = tmp[3][3];
 }
 
+/**
+ * @brief 多項式同士の掛け算を行います。
+ * @param[in] a 第1オペランド
+ * @param[in] b 第2オペランド
+ * @return 計算結果
+ */
 static U8 GMul(U8 a, U8 b)
 {
     U8 p = 0;
@@ -409,12 +451,13 @@ static U8 GMul(U8 a, U8 b)
     return p;
 }
 
+/***********************************************************************/
 
 /**
  * @brief 配列の要素を別の配列にコピーします。
- * @param dest コピー先
- * @param src コピー元
- * @param size 要素数
+ * @param[out] dest コピー先
+ * @param[in] src コピー元
+ * @param[in] size 要素数
  */
 static void CopyArrayData(U8 *dest , U8 *src, U32 size)
 {

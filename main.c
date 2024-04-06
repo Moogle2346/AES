@@ -39,6 +39,7 @@ void main(void)
 	U8 plainText[32];
 	U8 cipherText[32];
 	U8 data[32];
+	U8 i;
 
 	plainText[0] = 0x00;
 	plainText[1] = 0x11;
@@ -76,9 +77,17 @@ void main(void)
 	while (1)
 	{
 		InitializeCryption();
-		Encrypt(plainText, cipherText, 2);
-
+		// Encrypt(plainText, cipherText, 2);
+		for (i = 0; i < 2; i++)
+		{
+			Encrypt(&plainText[i * 16], &cipherText[i * 16], 1);
+		}
+		
 		InitializeCryption();
-		Decrypt(cipherText, data, 2);
+		// Decrypt(cipherText, data, 2);
+		for (i = 0; i < 2; i++)
+		{
+			Decrypt(&cipherText[i * 16], &data[i * 16], 1);
+		}
 	}
 }
