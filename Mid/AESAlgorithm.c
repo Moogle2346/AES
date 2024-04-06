@@ -35,8 +35,7 @@ static void ShiftRows(U8 *data);
 static void InvShiftRows(U8 *data);
 static void MixColumns(U8 *data);
 static void InvMixColumns(U8 *data);
-static U8 dot(U8 x, U8 y);
-static U8 xtime(U8 polynomial);
+static U8 GMul(U8 a, U8 b);
 static void CopyArrayData(U8 *dest , U8 *src, U32 size);
 
 //-----------------------------------------------------------
@@ -187,7 +186,6 @@ void EncryptByAES128(const U8 *plainText, U8 *cipherText, U32 block, U8 *iv)
 		for (j = 0; j < BLOCK_SIZE; j++)
 		{
 			cipherTextPtr[j] = plainTextPtr[j];
-			// cipherTextPtr[j] = plainTextPtr[j] ^ iv[j];
 		}
 
 		// 暗号処理
@@ -237,12 +235,6 @@ void DecryptByAES128(const U8 *cipherText, U8 *plainText, U32 block, U8 *iv)
 		InvSubBytes(plainTextPtr);
 		AddRoundKey(plainTextPtr, roundKey);
 
-		#if 0
-		for (j = 0; j < BLOCK_SIZE; j++)
-		{
-			plainTextPtr[j] ^= iv[j];
-		}
-		#endif
 		CopyArrayData(iv, cipherTextPtr, BLOCK_SIZE);
 	}
 }
@@ -251,7 +243,8 @@ void DecryptByAES128(const U8 *cipherText, U8 *plainText, U32 block, U8 *iv)
 
 /**
  * @brief 引数にラウンドキーの排他的論理和を行います。
- * @param data データ
+ * @param[out] data データ
+ * @param[in] key ラウンドキー
  */
 static void AddRoundKey(U8 *data, U32 *key)
 {
@@ -267,7 +260,7 @@ static void AddRoundKey(U8 *data, U32 *key)
 
 /**
  * @brief S-Boxに基づきデータを置換します。
- * @param data 置換データ
+ * @param[in] data 置換データ
  */
 static void SubBytes(U8 *data)
 {
@@ -326,10 +319,10 @@ static void ShiftRows(U8 *data)
 
 	CopyArrayData(tmp, data, BLOCK_SIZE);
 
-	data[0]  = tmp[0];	data[1]  = tmp[1];	data[2]  = tmp[2];	data[3]  = tmp[3];
-	data[4]  = tmp[5];	data[5]  = tmp[6];	data[6]  = tmp[7];	data[7]  = tmp[4];
-	data[8]  = tmp[10];	data[9]  = tmp[11];	data[10] = tmp[8];	data[11] = tmp[9];
-	data[12] = tmp[15];	data[13] = tmp[12];	data[14] = tmp[13];	data[15] = tmp[14];
+	data[0] = tmp[0];	data[4] = tmp[4];	data[8]  = tmp[8];	data[12] = tmp[12];		// 00 04 08 12 -> 00 04 08 12
+	data[1] = tmp[5];	data[5] = tmp[9];	data[9]  = tmp[13];	data[13] = tmp[1];		// 01 05 09 13 -> 05 09 13 01
+	data[2] = tmp[10];	data[6] = tmp[14];	data[10] = tmp[2];	data[14] = tmp[6];		// 02 06 10 14 -> 10 14 02 06
+	data[3] = tmp[15];	data[7] = tmp[3];	data[11] = tmp[7];	data[15] = tmp[11];		// 03 07 11 15 -> 15 03 07 11
 }
 
 /**
@@ -343,17 +336,64 @@ static void InvShiftRows(U8 *data)
 
 	CopyArrayData(tmp, data, BLOCK_SIZE);
 
-	data[0]  = tmp[0];	data[1]  = tmp[1];	data[2]  = tmp[2];	data[3]  = tmp[3];
-	data[4]  = tmp[7];	data[5]  = tmp[4];	data[6]  = tmp[5];	data[7]  = tmp[6];
-	data[8]  = tmp[10];	data[9]  = tmp[11];	data[10] = tmp[8];	data[11] = tmp[9];
-	data[12] = tmp[13];	data[13] = tmp[14];	data[14] = tmp[15];	data[15] = tmp[12];
+	data[0] = tmp[0];	data[4] = tmp[4];	data[8]  = tmp[8];	data[12] = tmp[12];		// 00 04 08 12 -> 00 04 08 12
+	data[1] = tmp[13];	data[5] = tmp[1];	data[9]  = tmp[5];	data[13] = tmp[9];		// 01 05 09 13 -> 13 01 05 09
+	data[2] = tmp[10];	data[6] = tmp[14];	data[10] = tmp[2];	data[14] = tmp[6];		// 02 06 10 14 -> 10 14 02 06
+	data[3] = tmp[7];	data[7] = tmp[11];	data[11] = tmp[15];	data[15] = tmp[3];		// 03 07 11 15 -> 07 11 15 03
 }
 
 /****************************** MixColumn ******************************/
 
+static void MixColumns(U8 *data)
+{
+	U8 table[4][4];
+	U8 tmp[4][4];
+	U8 c;
+
+	table[0][0] = data[0];	table[0][1] = data[4];	table[0][2] = data[8];	table[0][3] = data[12];
+	table[1][0] = data[1];	table[1][1] = data[5];	table[1][2] = data[9];	table[1][3] = data[13];
+	table[2][0] = data[2];	table[2][1] = data[6];	table[2][2] = data[10];	table[2][3] = data[14];
+	table[3][0] = data[3];	table[3][1] = data[7];	table[3][2] = data[11];	table[3][3] = data[15];
+
+	for (c = 0; c < 4; c++) {
+		tmp[0][c] = (U8)(GMul(0x02, table[0][c]) ^ GMul(0x03, table[1][c]) ^ table[2][c]			 ^ table[3][c]);
+		tmp[1][c] = (U8)(table[0][c] 			 ^ GMul(0x02, table[1][c]) ^ GMul(0x03, table[2][c]) ^ table[3][c]);
+		tmp[2][c] = (U8)(table[0][c]			 ^ table[1][c]			   ^ GMul(0x02, table[2][c]) ^ GMul(0x03, table[3][c]));
+		tmp[3][c] = (U8)(GMul(0x03, table[0][c]) ^ table[1][c]			   ^ table[2][c]			 ^ GMul(0x02, table[3][c]));
+    }
+
+	data[0] = tmp[0][0];	data[4] = tmp[0][1];	data[8]  = tmp[0][2];	data[12] = tmp[0][3];
+	data[1] = tmp[1][0];	data[5] = tmp[1][1];	data[9]  = tmp[1][2];	data[13] = tmp[1][3];
+	data[2] = tmp[2][0];	data[6] = tmp[2][1];	data[10] = tmp[2][2];	data[14] = tmp[2][3];
+	data[3] = tmp[3][0];	data[7] = tmp[3][1];	data[11] = tmp[3][2];	data[15] = tmp[3][3];
+}
+
+static void InvMixColumns(U8 *data)
+{
+	U8 table[4][4];
+	U8 tmp[4][4];
+	U8 c;
+
+	table[0][0] = data[0];	table[0][1] = data[4];	table[0][2] = data[8];	table[0][3] = data[12];
+	table[1][0] = data[1];	table[1][1] = data[5];	table[1][2] = data[9];	table[1][3] = data[13];
+	table[2][0] = data[2];	table[2][1] = data[6];	table[2][2] = data[10];	table[2][3] = data[14];
+	table[3][0] = data[3];	table[3][1] = data[7];	table[3][2] = data[11];	table[3][3] = data[15];
+
+	for (c = 0; c < 4; c++) {
+		tmp[0][c] = (U8)(GMul(0x0E, table[0][c]) ^ GMul(0x0B, table[1][c]) ^ GMul(0x0D, table[2][c]) ^ GMul(0x09, table[3][c]));
+		tmp[1][c] = (U8)(GMul(0x09, table[0][c]) ^ GMul(0x0E, table[1][c]) ^ GMul(0x0B, table[2][c]) ^ GMul(0x0D, table[3][c]));
+		tmp[2][c] = (U8)(GMul(0x0D, table[0][c]) ^ GMul(0x09, table[1][c]) ^ GMul(0x0E, table[2][c]) ^ GMul(0x0B, table[3][c]));
+		tmp[3][c] = (U8)(GMul(0x0B, table[0][c]) ^ GMul(0x0D, table[1][c]) ^ GMul(0x09, table[2][c]) ^ GMul(0x0E, table[3][c]));
+    }
+
+	data[0] = tmp[0][0];	data[4] = tmp[0][1];	data[8]  = tmp[0][2];	data[12] = tmp[0][3];
+	data[1] = tmp[1][0];	data[5] = tmp[1][1];	data[9]  = tmp[1][2];	data[13] = tmp[1][3];
+	data[2] = tmp[2][0];	data[6] = tmp[2][1];	data[10] = tmp[2][2];	data[14] = tmp[2][3];
+	data[3] = tmp[3][0];	data[7] = tmp[3][1];	data[11] = tmp[3][2];	data[15] = tmp[3][3];
+}
+
 static U8 GMul(U8 a, U8 b)
 {
-	// Galois Field (256) Multiplication of two Bytes
     U8 p = 0;
 	U8 counter;
 	U8  hi_bit_set;
@@ -363,8 +403,7 @@ static U8 GMul(U8 a, U8 b)
             p ^= a;
         }
 
-        // bool hi_bit_set = (a & 0x80) != 0;
-		hi_bit_set =  ((a & 0x80) != 0) ? True : False;
+		hi_bit_set = a & 0x80;
         a <<= 1;
         if (hi_bit_set) {
             a ^= 0x1B; /* x^8 + x^4 + x^3 + x + 1 */
@@ -375,53 +414,6 @@ static U8 GMul(U8 a, U8 b)
     return p;
 }
 
-static void MixColumns(U8 *data)
-{
-	U8 table[4][4];
-	U8 tmp[4][4];
-	U8 c;
-
-	table[0][0] = data[0];	table[0][1] = data[1];	table[0][2] = data[2];	table[0][3] = data[3];
-	table[1][0] = data[4];	table[1][1] = data[5];	table[1][2] = data[6];	table[1][3] = data[7];
-	table[2][0] = data[8];	table[2][1] = data[9];	table[2][2] = data[10];	table[2][3] = data[11];
-	table[3][0] = data[12];	table[3][1] = data[13];	table[3][2] = data[14];	table[3][3] = data[15];
-
-    for (c = 0; c < 4; c++) {
-        tmp[0][c] = (U8)(GMul(0x02, table[0][c]) ^ GMul(0x03, table[1][c]) ^ table[2][c] ^ table[3][c]);
-        tmp[1][c] = (U8)(table[0][c] ^ GMul(0x02, table[1][c]) ^ GMul(0x03, table[2][c]) ^ table[3][c]);
-        tmp[2][c] = (U8)(table[0][c] ^ table[1][c] ^ GMul(0x02, table[2][c]) ^ GMul(0x03, table[3][c]));
-        tmp[3][c] = (U8)(GMul(0x03, table[0][c]) ^ table[1][c] ^ table[2][c] ^ GMul(0x02, table[3][c]));
-    }
-
-	data[0] = tmp[0][0];	data[1] = tmp[0][1];	data[2] = tmp[0][2];	data[3] = tmp[0][3];
-	data[4] = tmp[1][0];	data[5] = tmp[1][1];	data[6] = tmp[1][2];	data[7] = tmp[1][3];
-	data[8] = tmp[2][0];	data[9] = tmp[2][1];	data[10] = tmp[2][2];	data[11] = tmp[2][3];
-	data[12] = tmp[3][0];	data[13] = tmp[3][1];	data[14] = tmp[3][2];	data[15] = tmp[3][3];
-}
-
-static void InvMixColumns(U8 *data)
-{
-	U8 table[4][4];
-	U8 tmp[4][4];
-	U8 c;
-
-	table[0][0] = data[0];	table[0][1] = data[1];	table[0][2] = data[2];	table[0][3] = data[3];
-	table[1][0] = data[4];	table[1][1] = data[5];	table[1][2] = data[6];	table[1][3] = data[7];
-	table[2][0] = data[8];	table[2][1] = data[9];	table[2][2] = data[10];	table[2][3] = data[11];
-	table[3][0] = data[12];	table[3][1] = data[13];	table[3][2] = data[14];	table[3][3] = data[15];
-
-    for (c = 0; c < 4; c++) {
-        tmp[0][c] = (U8)(GMul(0x0E, table[0][c]) ^ GMul(0x0B, table[1][c]) ^ GMul(0x0D, table[2][c]) ^ GMul(0x09, table[3][c]));
-        tmp[1][c] = (U8)(GMul(0x09, table[0][c]) ^ GMul(0x0E, table[1][c]) ^ GMul(0x0B, table[2][c]) ^ GMul(0x0D, table[3][c]));
-        tmp[2][c] = (U8)(GMul(0x0D, table[0][c]) ^ GMul(0x09, table[1][c]) ^ GMul(0x0E, table[2][c]) ^ GMul(0x0B, table[3][c]));
-        tmp[3][c] = (U8)(GMul(0x0B, table[0][c]) ^ GMul(0x0D, table[1][c]) ^ GMul(0x09, table[2][c]) ^ GMul(0x0E, table[3][c]));
-    }
-
-	data[0] = tmp[0][0];	data[1] = tmp[0][1];	data[2] = tmp[0][2];	data[3] = tmp[0][3];
-	data[4] = tmp[1][0];	data[5] = tmp[1][1];	data[6] = tmp[1][2];	data[7] = tmp[1][3];
-	data[8] = tmp[2][0];	data[9] = tmp[2][1];	data[10] = tmp[2][2];	data[11] = tmp[2][3];
-	data[12] = tmp[3][0];	data[13] = tmp[3][1];	data[14] = tmp[3][2];	data[15] = tmp[3][3];
-}
 
 /**
  * @brief 配列の要素を別の配列にコピーします。

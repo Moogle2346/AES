@@ -1,7 +1,7 @@
 
 
 
-78K0R Linker W1.80                            Date:21 Sep 2021 Page:   1
+78K0R Linker W1.80                            Date: 6 Apr 2024 Page:   1
 
 Command:   -yD:\Program Files (x86)\Renesas Electronics\CS+\CACX\Device\
            RL78\Devicefile -_msgoff -oDefaultBuild\AES.lmf -gi0000000000
@@ -20,7 +20,7 @@ Directive:
 *** Link information ***
 
     25 output segment(s)
-  EBCH byte(s) real data
+  EB5H byte(s) real data
    507 symbol(s) defined
 
 
@@ -91,16 +91,16 @@ Directive:
                   @@LCODE  @lband     001B5H    00014H
                   @@LCODE  @lbor      001C9H    00014H
                   @@LCODE  @lbxor     001DDH    00014H
-         @@CODEL                      001F1H    00ABCH  CSEG
+         @@CODEL                      001F1H    00AB5H  CSEG
                   @@CODEL  main       001F1H    00067H
                   @@CODEL  AES        00258H    00057H
                   @@CODEL  AESAlgorithm
-                                      002AFH    009FEH
-         @@LCODEL                     00CADH    00061H  CSEG
-                  @@LCODEL @hdwinit   00CADH    00001H
-                  @@LCODEL @stkinit   00CAEH    00044H
-                  @@LCODEL exit       00CF2H    0001CH
-* gap *                               00D0EH    012F2H
+                                      002AFH    009F7H
+         @@LCODEL                     00CA6H    00061H  CSEG
+                  @@LCODEL @hdwinit   00CA6H    00001H
+                  @@LCODEL @stkinit   00CA7H    00044H
+                  @@LCODEL exit       00CEBH    0001CH
+* gap *                               00D07H    012F9H
          @@CNST                       02000H    0026CH  CSEG MIRRORP
                   @@CNST   @cstart    02000H    00000H
                   @@CNST   main       02000H    00000H

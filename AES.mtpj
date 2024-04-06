@@ -1,9 +1,9 @@
 <CubeSuiteProject>
-  <ProductVersion>5.06.00.00</ProductVersion>
+  <ProductVersion>5.08.00.00</ProductVersion>
   <Class Guid="68f4a651-b9cd-473b-a595-b00447132ffa">
     <Instance Guid="00000000-0000-0000-0000-000000000000">
       <FormatVersion>2.0</FormatVersion>
-      <FileVersion>5.6</FileVersion>
+      <FileVersion>5.8</FileVersion>
       <ProjectGuid>ab17dda8-ee59-4671-ad9d-e036ea6523e8</ProjectGuid>
       <ProjectItemGuid>9dd54327-7e69-44cd-b2ee-04fdf7e47cec</ProjectItemGuid>
       <FileCategoryGuid>1168a6f3-4cf4-4312-b7a9-adc1244f45ca</FileCategoryGuid>
@@ -129,6 +129,9 @@
       <MemoCount>0</MemoCount>
     </Instance>
     <Instance Guid="101b55c0-6289-4244-9b8b-3c5be4e1953c">
+      <MemoCount>0</MemoCount>
+    </Instance>
+    <Instance Guid="195e45da-c23a-4f3e-b214-b4dd23ea6cff">
       <MemoCount>0</MemoCount>
     </Instance>
   </Class>
@@ -1208,7 +1211,7 @@ lib
     &lt;/RTC1HZ&gt;
     &lt;RXD0 Name="RXD0" Text="disable" /&gt;
     &lt;ProjectName Name="PrjName" Text="AES" /&gt;
-    &lt;ProjectPath Name="PrjPath" Text="D:\CS+\workspace\AES" /&gt;
+    &lt;ProjectPath Name="PrjPath" Text="D:\Users\Admin\data\プログラミング\workspace\AES128\AES" /&gt;
     &lt;ProjectKind Name="PrjKind" Text="Project78K0R" /&gt;
     &lt;DeviceName Name="DeviceName" Fixed="" Text="RL78F13" /&gt;
     &lt;MCUName Name="MCUName" Text="RL78F13_48pin" /&gt;
@@ -1259,7 +1262,7 @@ lib
     &lt;HasTraceRam Name="HasTraceRam" Text="" /&gt;
     &lt;HasHotRam Name="HasHotRam" Text="" /&gt;
     &lt;PrjVersion Name="PrjVersion" Text="1.2.0.1" /&gt;
-    &lt;ProductVersion Name="ProductVersion" Text="3.08.05.01" /&gt;
+    &lt;ProductVersion Name="ProductVersion" Text="3.08.06.01" /&gt;
   &lt;/VAR&gt;
   &lt;DIR&gt;
     &lt;PIN&gt;
@@ -2419,10 +2422,9 @@ lib
     &lt;/FUNC&gt;
     &lt;TAG&gt;
       &lt;GlobleUserTag&gt;
-        &lt;cg_crc_area Name="cg_crc_area" Value="00" /&gt;
         &lt;cg_security9 Name="cg_security9" Value="00" /&gt;
         &lt;cg_security7 Name="cg_security7" Value="00" /&gt;
-        &lt;pior_value4 Name="pior_value4" Value="01" /&gt;
+        &lt;pior_value7 Name="pior_value7" Value="00" /&gt;
         &lt;pior_value1 Name="pior_value1" Value="00" /&gt;
         &lt;cg_security5 Name="cg_security5" Value="00" /&gt;
         &lt;ocdstart Name="ocdstart" Value="1FE00" /&gt;
@@ -2432,15 +2434,16 @@ lib
         &lt;cg_security1 Name="cg_security1" Value="00" /&gt;
         &lt;wdt_option Name="wdt_option" Value="FF" /&gt;
         &lt;clock_option Name="clock_option" Value="E9" /&gt;
+        &lt;cg_security2 Name="cg_security2" Value="00" /&gt;
         &lt;cg_option Name="cg_option" Value="04" /&gt;
         &lt;cg_security8 Name="cg_security8" Value="00" /&gt;
         &lt;cg_security6 Name="cg_security6" Value="00" /&gt;
         &lt;pior_value0 Name="pior_value0" Value="00" /&gt;
         &lt;cg_security4 Name="cg_security4" Value="00" /&gt;
-        &lt;cg_security2 Name="cg_security2" Value="00" /&gt;
+        &lt;cg_crc_area Name="cg_crc_area" Value="00" /&gt;
         &lt;cg_iawctl_value Name="cg_iawctl_value" Value="00" /&gt;
         &lt;lvi_option Name="lvi_option" Value="FF" /&gt;
-        &lt;pior_value7 Name="pior_value7" Value="00" /&gt;
+        &lt;pior_value4 Name="pior_value4" Value="01" /&gt;
       &lt;/GlobleUserTag&gt;
     &lt;/TAG&gt;
   &lt;/DIR&gt;

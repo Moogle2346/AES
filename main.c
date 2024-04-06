@@ -41,21 +41,21 @@ void main(void)
 	U8 data[16];
 
 	plainText[0] = 0x00;
-	plainText[1] = 0x01;
-	plainText[2] = 0x02;
-	plainText[3] = 0x03;
-	plainText[4] = 0x04;
-	plainText[5] = 0x05;
-	plainText[6] = 0x06;
-	plainText[7] = 0x07;
-	plainText[8] = 0x08;
-	plainText[9] = 0x09;
-	plainText[10] = 0x0A;
-	plainText[11] = 0x0B;
-	plainText[12] = 0x0C;
-	plainText[13] = 0x0D;
-	plainText[14] = 0x0E;
-	plainText[15] = 0x0F;
+	plainText[1] = 0x11;
+	plainText[2] = 0x22;
+	plainText[3] = 0x33;
+	plainText[4] = 0x44;
+	plainText[5] = 0x55;
+	plainText[6] = 0x66;
+	plainText[7] = 0x77;
+	plainText[8] = 0x88;
+	plainText[9] = 0x99;
+	plainText[10] = 0xAA;
+	plainText[11] = 0xBB;
+	plainText[12] = 0xCC;
+	plainText[13] = 0xDD;
+	plainText[14] = 0xEE;
+	plainText[15] = 0xFF;
 
 	while (1)
 	{
