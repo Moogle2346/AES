@@ -60,6 +60,7 @@ void InitializeCryption(void)
 	CreateExpansionKey(KEY);
 }
 
+#ifdef USE_ENCRYPTION
 /**
  * @brief AES128で暗号化します。
  * @param[in] plainText 平文
@@ -71,7 +72,9 @@ void Encrypt(U8 *plainText, U8 *cipherText, U32 block)
 {
 	EncryptByAES128(plainText, cipherText, block, iv);
 }
+#endif	// USE_ENCRYPTION
 
+#ifdef USE_DECRYPTION
 /**
  * @brief AES128で復号します。
  * @param[in] cipherText 暗号文
@@ -83,6 +86,7 @@ void Decrypt(U8 *cipherText, U8 *plainText, U32 block)
 {
 	DecryptByAES128(cipherText, plainText, block, iv);
 }
+#endif	// USE_DECRYPTION
 
 /**
  * @brief IVをデフォルト値に設定します。
