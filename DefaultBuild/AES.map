@@ -20,8 +20,8 @@ Directive:
 *** Link information ***
 
     25 output segment(s)
-  F35H byte(s) real data
-   513 symbol(s) defined
+  E69H byte(s) real data
+   549 symbol(s) defined
 
 
 *** Memory map ***
@@ -92,16 +92,16 @@ Directive:
          @@CNSTL                      001F2H    0022CH  CSEG PAGE64KP
                   @@CNSTL  AESAlgorithm
                                       001F2H    0022CH
-         @@CODEL                      0041EH    00B55H  CSEG
+         @@CODEL                      0041EH    00A89H  CSEG
                   @@CODEL  main       0041EH    000CCH
                   @@CODEL  AES        004EAH    00057H
                   @@CODEL  AESAlgorithm
-                                      00541H    00A32H
-         @@LCODEL                     00F73H    00061H  CSEG
-                  @@LCODEL @hdwinit   00F73H    00001H
-                  @@LCODEL @stkinit   00F74H    00044H
-                  @@LCODEL exit       00FB8H    0001CH
-* gap *                               00FD4H    0102CH
+                                      00541H    00966H
+         @@LCODEL                     00EA7H    00061H  CSEG
+                  @@LCODEL @hdwinit   00EA7H    00001H
+                  @@LCODEL @stkinit   00EA8H    00044H
+                  @@LCODEL exit       00EECH    0001CH
+* gap *                               00F08H    010F8H
          @@CNST                       02000H    00020H  CSEG MIRRORP
                   @@CNST   @cstart    02000H    00000H
                   @@CNST   main       02000H    00000H

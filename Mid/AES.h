@@ -5,8 +5,6 @@
 
 #ifndef AES_H
 #define AES_H
-//-----------------------------------------------------------
-
 
 //-----------------------------------------------------------
 //  É}ÉNÉçíËã`
@@ -31,5 +29,4 @@ void InitializeCryption(void);
 void Encrypt(U8 *plainText, U8 *cipherText, U32 block);
 void Decrypt(U8 *cipherText, U8 *plainText, U32 block);
 
-//-----------------------------------------------------------
 #endif

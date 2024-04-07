@@ -57,10 +57,10 @@
 010069B_EncryptByAES128
 01004EA_InitializeCryption
 02FDF96_errno
-0100FB8_exit
-0100F73_hdwinit
+0100EEC_exit
+0100EA7_hdwinit
 010041E_main
-0100F74_stkinit
+0100EA8_stkinit
 ;FF     @cstart
 ;FF     main
 ;FF     AES
@@ -70,11 +70,11 @@
 02FDFBA_iv
 ;FF     AESAlgorithm
 <0100839_AddRoundKey
-0100F3B_CopyArrayData
-0100EF0_GMul
+0100E6F_CopyArrayData
+0100E24_GMul
 01008EE_GetInvSBox
 01008AE_GetSBox
-0100C4D_InvMixColumns
+0100BE7_InvMixColumns
 0100985_InvShiftRows
 01008BD_InvSubBytes
 0100A0D_MixColumns

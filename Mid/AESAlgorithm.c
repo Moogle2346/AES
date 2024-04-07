@@ -376,11 +376,15 @@ static void MixColumns(U8 *data)
 	U8 table[4][4];
 	U8 tmp[4][4];
 	U8 c;
+	U8 i, j;
 
-	table[0][0] = data[0];	table[0][1] = data[4];	table[0][2] = data[8];	table[0][3] = data[12];
-	table[1][0] = data[1];	table[1][1] = data[5];	table[1][2] = data[9];	table[1][3] = data[13];
-	table[2][0] = data[2];	table[2][1] = data[6];	table[2][2] = data[10];	table[2][3] = data[14];
-	table[3][0] = data[3];	table[3][1] = data[7];	table[3][2] = data[11];	table[3][3] = data[15];
+	for (i = 0; i < 4; i++)
+	{
+		for (j = 0; j < 4; j++)
+		{
+			table[j][i] = data[i * 4 + j];
+		}
+	}
 
 	for (c = 0; c < 4; c++) {
 		tmp[0][c] = (U8)(GMul(0x02, table[0][c]) ^ GMul(0x03, table[1][c]) ^ table[2][c]			 ^ table[3][c]);
@@ -389,10 +393,13 @@ static void MixColumns(U8 *data)
 		tmp[3][c] = (U8)(GMul(0x03, table[0][c]) ^ table[1][c]			   ^ table[2][c]			 ^ GMul(0x02, table[3][c]));
     }
 
-	data[0] = tmp[0][0];	data[4] = tmp[0][1];	data[8]  = tmp[0][2];	data[12] = tmp[0][3];
-	data[1] = tmp[1][0];	data[5] = tmp[1][1];	data[9]  = tmp[1][2];	data[13] = tmp[1][3];
-	data[2] = tmp[2][0];	data[6] = tmp[2][1];	data[10] = tmp[2][2];	data[14] = tmp[2][3];
-	data[3] = tmp[3][0];	data[7] = tmp[3][1];	data[11] = tmp[3][2];	data[15] = tmp[3][3];
+	for (i = 0; i < 4; i++)
+	{
+		for (j = 0; j < 4; j++)
+		{
+			data[i * 4 + j] = tmp[j][i];
+		}
+	}
 }
 
 /**
@@ -404,11 +411,15 @@ static void InvMixColumns(U8 *data)
 	U8 table[4][4];
 	U8 tmp[4][4];
 	U8 c;
+	U8 i, j;
 
-	table[0][0] = data[0];	table[0][1] = data[4];	table[0][2] = data[8];	table[0][3] = data[12];
-	table[1][0] = data[1];	table[1][1] = data[5];	table[1][2] = data[9];	table[1][3] = data[13];
-	table[2][0] = data[2];	table[2][1] = data[6];	table[2][2] = data[10];	table[2][3] = data[14];
-	table[3][0] = data[3];	table[3][1] = data[7];	table[3][2] = data[11];	table[3][3] = data[15];
+	for (i = 0; i < 4; i++)
+	{
+		for (j = 0; j < 4; j++)
+		{
+			table[j][i] = data[i * 4 + j];
+		}
+	}
 
 	for (c = 0; c < 4; c++) {
 		tmp[0][c] = (U8)(GMul(0x0E, table[0][c]) ^ GMul(0x0B, table[1][c]) ^ GMul(0x0D, table[2][c]) ^ GMul(0x09, table[3][c]));
@@ -417,10 +428,13 @@ static void InvMixColumns(U8 *data)
 		tmp[3][c] = (U8)(GMul(0x0B, table[0][c]) ^ GMul(0x0D, table[1][c]) ^ GMul(0x09, table[2][c]) ^ GMul(0x0E, table[3][c]));
     }
 
-	data[0] = tmp[0][0];	data[4] = tmp[0][1];	data[8]  = tmp[0][2];	data[12] = tmp[0][3];
-	data[1] = tmp[1][0];	data[5] = tmp[1][1];	data[9]  = tmp[1][2];	data[13] = tmp[1][3];
-	data[2] = tmp[2][0];	data[6] = tmp[2][1];	data[10] = tmp[2][2];	data[14] = tmp[2][3];
-	data[3] = tmp[3][0];	data[7] = tmp[3][1];	data[11] = tmp[3][2];	data[15] = tmp[3][3];
+	for (i = 0; i < 4; i++)
+	{
+		for (j = 0; j < 4; j++)
+		{
+			data[i * 4 + j] = tmp[j][i];
+		}
+	}
 }
 
 /**
@@ -433,7 +447,7 @@ static U8 GMul(U8 a, U8 b)
 {
     U8 p = 0;
 	U8 counter;
-	U8  hi_bit_set;
+	U8 hi_bit_set;
 
     for (counter = 0; counter < 8; counter++) {
         if ((b & 1) != 0) {

@@ -5,8 +5,6 @@
 
 #ifndef AESALGORITHM_H
 #define AESALGORITHM_H
-//-----------------------------------------------------------
-
 
 //-----------------------------------------------------------
 //  É}ÉNÉçíËã`
@@ -33,5 +31,4 @@ void CreateExpansionKey(U8 *key);
 void EncryptByAES128(const U8 *plainText, U8 *cipherText, U32 block, U8 *iv);
 void DecryptByAES128(const U8 *cipherText, U8 *plainText, U32 block, U8 *iv);
 
-//-----------------------------------------------------------
 #endif
